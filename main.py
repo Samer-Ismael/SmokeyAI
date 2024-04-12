@@ -1,25 +1,10 @@
-import threading
-import time
-from collections import deque
-from flask_cors import CORS
+
 import requests
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all origins
 
-history = deque(maxlen=3)  # Set maximum length of history to 3
-
-def clear_history():
-    global history
-    while True:
-        time.sleep(120)  # Sleep for 2 minutes
-        history.clear()
-
-# Start a separate thread to clear history periodically
-history_cleaner_thread = threading.Thread(target=clear_history)
-history_cleaner_thread.daemon = True
-history_cleaner_thread.start()
+history = []
 
 @app.route('/generate', methods=['POST'])
 def generate_response():
@@ -28,7 +13,7 @@ def generate_response():
     data = request.json
 
     # Set the model name
-    data['model'] = 'mistral'
+    data['model'] = 'Smokey'
     # Disable streaming
     data['stream'] = False
 
@@ -51,6 +36,7 @@ def generate_response():
 
     # Return the generated response along with the history
     return jsonify({'generated_response': generated_response, 'history': list(history)})
+
 
 
 if __name__ == '__main__':
