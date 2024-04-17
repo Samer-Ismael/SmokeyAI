@@ -11,7 +11,7 @@ def generate_response():
     data = request.json
 
     # Set the model name to "Smokey"
-    data['model'] = 'Smokey1'
+    data['model'] = 'Smokey'
 
     # Set streaming to false
     data['stream'] = False
